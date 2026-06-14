@@ -1,0 +1,308 @@
+# kread UI Asset Definitions
+# Source of truth for web emulator + firmware render engine.
+# Web: imported directly. Firmware: compiled to binary embed.
+#
+# Display: 480×800 portrait, 2-bit grayscale (4 levels)
+# Safe margin: 8px all edges (bezel covers ~6px)
+
+display:
+  width: 480
+  height: 800
+  safe: { top: 8, bottom: 8, left: 8, right: 8 }
+
+# ─── Container sizes ────────────────────────────────────────
+
+containers:
+  help_slot:       { w: 116, h: 39 }
+  header:          { w: 464, h: 53 }
+  list_label:      { w: 240, h: 40 }
+  list_value:      { w: 220, h: 40 }
+  progress_label:  { w: 200, h: 18 }
+  empty_primary:   { w: 424, h: 28 }
+  empty_secondary: { w: 424, h: 22 }
+  digit:           { w: 24,  h: 40 }
+  digit_sm:        { w: 10,  h: 20 }   # fixed width for tabular digits
+
+# ─── Fonts ───────────────────────────────────────────────────
+
+fonts:
+  ui:       { family: "Verdana", size: 18 }
+  ui_bold:  { family: "Verdana", size: 18, weight: bold }
+  header:   { family: "Verdana", size: 22, weight: bold }
+  nav:      { family: "Verdana", size: 16 }
+  small:    { family: "Verdana", size: 14 }
+  digit:    { family: "Verdana", size: 28, weight: bold }
+
+# ─── Bar layout ─────────────────────────────────────────────
+
+bars:
+  help: { y: 752, slot_w: 116, slot_h: 39, divider: true }
+
+# ─── Dynamic components ─────────────────────────────────────
+# Pre-render frame/border only. Firmware fills by code at runtime.
+
+dynamic:
+  # Sizes include stroke overshoot (1px pad each side for lineWidth 1.5)
+  battery.frame:    { w: 29, h: 14 }   # body 24×12 + tip 3×6, +1px stroke pad
+  progress.frame:   { w: 426, h: 16, radius: 7, pad: 3 }   # +1px stroke pad
+  arrow.left:       { w: 18, h: 18 }   # 16px triangle + 1px stroke pad
+  arrow.right:      { w: 18, h: 18 }
+  list.select_bar:  { w: 4, h: 40 }
+  list.scrollbar:   { w: 3, h: 20 }    # min height, actual computed
+  icon.star:        { w: 24, h: 24 }
+
+# ═════════════════════════════════════════════════════════════
+# ASSETS — pre-rendered bitmaps
+# ═════════════════════════════════════════════════════════════
+#
+# Structure: category.name
+# Shared across languages → no en/vi (digits, icons)
+# Per-language → text: { en, vi }
+
+assets:
+
+  # ── Shared (language-independent) ──────────────────────────
+
+  digit.0: { text: "0", font: digit, container: digit }
+  digit.1: { text: "1", font: digit, container: digit }
+  digit.2: { text: "2", font: digit, container: digit }
+  digit.3: { text: "3", font: digit, container: digit }
+  digit.4: { text: "4", font: digit, container: digit }
+  digit.5: { text: "5", font: digit, container: digit }
+  digit.6: { text: "6", font: digit, container: digit }
+  digit.7: { text: "7", font: digit, container: digit }
+  digit.8: { text: "8", font: digit, container: digit }
+  digit.9: { text: "9", font: digit, container: digit }
+  digit.dot:     { text: ".", font: digit, container: digit }
+  digit.percent: { text: "%", font: ui,    container: digit }
+
+  # Small digits for counters (gallery "5 / 10", reader page numbers)
+  # Uses 'tight' flag — container auto-sized to actual glyph width
+  sm.0: { text: "0", font: small, container: digit_sm, align: center }
+  sm.1: { text: "1", font: small, container: digit_sm, align: center }
+  sm.2: { text: "2", font: small, container: digit_sm, align: center }
+  sm.3: { text: "3", font: small, container: digit_sm, align: center }
+  sm.4: { text: "4", font: small, container: digit_sm, align: center }
+  sm.5: { text: "5", font: small, container: digit_sm, align: center }
+  sm.6: { text: "6", font: small, container: digit_sm, align: center }
+  sm.7: { text: "7", font: small, container: digit_sm, align: center }
+  sm.8: { text: "8", font: small, container: digit_sm, align: center }
+  sm.9: { text: "9", font: small, container: digit_sm, align: center }
+  sm.slash: { text: "/", font: small, tight: true }
+  sm.space: { text: " ", font: small, tight: true }
+
+  # ── Help bar slots ─────────────────────────────────────────
+  # All bottom bars are help bars — guide which button to press.
+  # ◁ = BACK, ▷ = (unused), △ = UP, ▽ = CONFIRM/DOWN
+  # filled triangle = primary action, hollow = secondary
+
+  help.read:     { container: help_slot, font: small, icon: { name: tri_left_filled,  pos: inline_left }, text: { en: Read,     vi: Đọc } }
+  help.library:  { container: help_slot, font: small, icon: { name: tri_down_filled,  pos: inline_left }, text: { en: Library,  vi: Thư viện } }
+  help.gallery:  { container: help_slot, font: small, icon: { name: tri_up_hollow,    pos: inline_left }, text: { en: Gallery,  vi: Bộ sưu tập } }
+  help.settings: { container: help_slot, font: small, icon: { name: tri_down_hollow,  pos: inline_left }, text: { en: Settings, vi: Cài đặt } }
+  help.home:     { container: help_slot, font: small, icon: { name: tri_left_filled,  pos: inline_left }, text: { en: Home,     vi: Trang chủ } }
+  help.back:     { container: help_slot, font: small, icon: { name: tri_left_filled,  pos: inline_left }, text: { en: Back,     vi: Quay lại } }
+  help.enter:    { container: help_slot, font: small, icon: { name: tri_down_filled,  pos: inline_left }, text: { en: Enter,    vi: Vào } }
+  help.go:       { container: help_slot, font: small, icon: { name: tri_down_filled,  pos: inline_left }, text: { en: Go,       vi: Đến } }
+  help.view:     { container: help_slot, font: small, icon: { name: tri_down_filled,  pos: inline_left }, text: { en: View,     vi: Xem } }
+  help.list:     { container: help_slot, font: small, icon: { name: tri_down_filled,  pos: inline_left }, text: { en: List,     vi: Danh sách } }
+  help.zoom:     { container: help_slot, font: small, icon: { name: tri_up_hollow,    pos: inline_left }, text: { en: Zoom,     vi: Phóng to } }
+  help.full:     { container: help_slot, font: small, icon: { name: tri_up_hollow,    pos: inline_left }, text: { en: Full,     vi: Toàn màn } }
+  help.star:     { container: help_slot, font: small, icon: { name: tri_down_hollow,  pos: inline_left }, text: { en: Star,     vi: Đánh dấu } }
+  help.page:     { container: help_slot, font: small, align: center, icons: [tri_left_hollow, tri_right_hollow], text: { en: Page,   vi: Trang } }
+  help.select:   { container: help_slot, font: small, align: center, icons: [tri_up_hollow, tri_down_hollow], text: { en: Select, vi: Chọn } }
+  help.change:   { container: help_slot, font: small, align: center, icons: [tri_left_hollow, tri_right_hollow], text: { en: Change, vi: Đổi } }
+
+  # ── Headers ────────────────────────────────────────────────
+
+  hdr.library:         { container: header, font: header, padLeft: 16, text: { en: Library,              vi: Thư viện } }
+  hdr.gallery:         { container: header, font: header, padLeft: 16, text: { en: Gallery,              vi: Bộ sưu tập } }
+  hdr.settings:        { container: header, font: header, padLeft: 16, text: { en: Settings,             vi: Cài đặt } }
+  hdr.book:            { container: header, font: header, padLeft: 16, text: { en: Book,                 vi: Sách } }
+  hdr.book_chapters:   { container: header, font: header, padLeft: 16, text: { en: "Book › Chapters",    vi: "Sách › Chương" } }
+  hdr.settings_device: { container: header, font: header, padLeft: 16, text: { en: "Settings › Device",  vi: "Cài đặt › Thiết bị" } }
+
+  # ── Settings labels ────────────────────────────────────────
+
+  label.ui_text:       { container: list_label, font: ui, text: { en: UI text,       vi: Văn bản UI } }
+  label.ui_images:     { container: list_label, font: ui, text: { en: UI images,     vi: Hình UI } }
+  label.sleep_timeout: { container: list_label, font: ui, text: { en: Sleep timeout, vi: Thời gian chờ } }
+  label.sleep_image:   { container: list_label, font: ui, text: { en: Sleep image,   vi: Hình chờ } }
+  label.language:      { container: list_label, font: ui, text: { en: Language,      vi: Ngôn ngữ } }
+  label.device_info:   { container: list_label, font: ui, text: { en: Device info,   vi: Thông tin TB } }
+  label.firmware:      { container: list_label, font: ui, text: { en: Firmware,      vi: Phần mềm } }
+
+  # ── Book menu labels ───────────────────────────────────────
+
+  label.chapters:       { container: list_label, font: ui, text: { en: Chapters,       vi: Chương } }
+  label.orientation:    { container: list_label, font: ui, text: { en: Orientation,    vi: Chiều } }
+  label.font:           { container: list_label, font: ui, text: { en: Font,           vi: Phông chữ } }
+  label.font_size:      { container: list_label, font: ui, text: { en: Font size,      vi: Cỡ chữ } }
+  label.text_mode:      { container: list_label, font: ui, text: { en: Text mode,      vi: Chế độ chữ } }
+  label.image_mode:     { container: list_label, font: ui, text: { en: Image mode,     vi: Chế độ ảnh } }
+  label.refresh_every:  { container: list_label, font: ui, text: { en: Refresh every,  vi: Làm mới mỗi } }
+  label.flip_direction: { container: list_label, font: ui, text: { en: Flip direction, vi: Hướng lật } }
+
+  # ── Device info labels ─────────────────────────────────────
+
+  label.storage:     { container: list_label, font: ui, text: { en: Storage,     vi: Bộ nhớ } }
+  label.temperature: { container: list_label, font: ui, text: { en: Temperature, vi: Nhiệt độ } }
+  label.battery:     { container: list_label, font: ui, text: { en: Battery,     vi: Pin } }
+  label.hardware:    { container: list_label, font: ui, text: { en: Hardware,    vi: Phần cứng } }
+  label.display:     { container: list_label, font: ui, text: { en: Display,     vi: Màn hình } }
+  label.grayscale:   { container: list_label, font: ui, text: { en: Grayscale,   vi: Xám } }
+
+  # ── Values (settings + book menu) ──────────────────────────
+
+  val.bw:         { container: list_value, font: ui, text: { en: "< B&W >",        vi: "< Đen trắng >" } }
+  val.grayscale:  { container: list_value, font: ui, text: { en: "< Grayscale >",   vi: "< Xám >" } }
+  val.never:      { container: list_value, font: ui, text: { en: "< Never >",       vi: "< Không >" } }
+  val.time_1m:    { container: list_value, font: ui, text: { en: "< 1 min >",       vi: "< 1 phút >" } }
+  val.time_3m:    { container: list_value, font: ui, text: { en: "< 3 min >",       vi: "< 3 phút >" } }
+  val.time_5m:    { container: list_value, font: ui, text: { en: "< 5 min >",       vi: "< 5 phút >" } }
+  val.time_10m:   { container: list_value, font: ui, text: { en: "< 10 min >",      vi: "< 10 phút >" } }
+  val.starred:    { container: list_value, font: ui, text: { en: "< Starred >",     vi: "< Đánh dấu >" } }
+  val.book_cover: { container: list_value, font: ui, text: { en: "< Book cover >",  vi: "< Bìa sách >" } }
+  val.lang_en:    { container: list_value, font: ui, text: { en: "< English >",     vi: "< Tiếng Anh >" } }
+  val.lang_vi:    { container: list_value, font: ui, text: { en: "< Vietnamese >",  vi: "< Tiếng Việt >" } }
+  val.portrait:   { container: list_value, font: ui, text: { en: "< Portrait >",    vi: "< Dọc >" } }
+  val.landscape:  { container: list_value, font: ui, text: { en: "< Landscape >",   vi: "< Ngang >" } }
+  val.pages_1:    { container: list_value, font: ui, text: { en: "< 1 page >",      vi: "< 1 trang >" } }
+  val.pages_5:    { container: list_value, font: ui, text: { en: "< 5 pages >",     vi: "< 5 trang >" } }
+  val.pages_10:   { container: list_value, font: ui, text: { en: "< 10 pages >",    vi: "< 10 trang >" } }
+  val.pages_15:   { container: list_value, font: ui, text: { en: "< 15 pages >",    vi: "< 15 trang >" } }
+  val.pages_30:   { container: list_value, font: ui, text: { en: "< 30 pages >",    vi: "< 30 trang >" } }
+  val.flip_down:  { container: list_value, font: ui, text: { en: "< ▽ Next >",      vi: "< ▽ Tiếp >" } }
+  val.flip_up:    { container: list_value, font: ui, text: { en: "< △ Next >",      vi: "< △ Tiếp >" } }
+  val.font_8pt:   { container: list_value, font: ui, text: { en: "< 8pt >",   vi: "< 8pt >" } }
+  val.font_10pt:  { container: list_value, font: ui, text: { en: "< 10pt >",  vi: "< 10pt >" } }
+  val.font_11pt:  { container: list_value, font: ui, text: { en: "< 11pt >",  vi: "< 11pt >" } }
+  val.font_12pt:  { container: list_value, font: ui, text: { en: "< 12pt >",  vi: "< 12pt >" } }
+  val.font_14pt:  { container: list_value, font: ui, text: { en: "< 14pt >",  vi: "< 14pt >" } }
+
+  # ── Empty states ───────────────────────────────────────────
+
+  empty.no_books:     { container: empty_primary,   font: ui_bold, text: { en: No books,          vi: Không có sách } }
+  empty.no_books_sub: { container: empty_secondary, font: ui,      text: { en: "Add .kb files via USB", vi: "Thêm file .kb qua USB" } }
+  empty.no_images:     { container: empty_primary,   font: ui_bold, text: { en: No images,         vi: Không có ảnh } }
+  empty.no_images_sub: { container: empty_secondary, font: ui,      text: { en: "Add images via USB",   vi: "Thêm ảnh qua USB" } }
+  empty.no_book:       { container: empty_primary,   font: ui_bold, text: { en: No book selected,  vi: Chưa chọn sách } }
+  empty.no_book_sub:   { container: empty_secondary, font: ui,      text: { en: "Go to Library to pick one", vi: "Vào Thư viện để chọn" } }
+
+  # ── Progress labels ────────────────────────────────────────
+  # Pre-rendered for each state: UNREAD, 1% READ .. 99% READ, FINISHED
+  # 101 bitmaps per language. Small containers (200×18), ~50KB total.
+
+  progress.unread:   { container: progress_label, font: small, align: center, text: { en: UNREAD,   vi: CHƯA ĐỌC } }
+  progress.finished: { container: progress_label, font: small, align: center, text: { en: FINISHED, vi: ĐÃ ĐỌC XONG } }
+
+# Generated: progress.1 .. progress.99 (one bitmap each)
+progress_range:
+  container: progress_label
+  font: small
+  align: center
+  template: { en: "{n}% READ", vi: "{n}% ĐÃ ĐỌC" }
+  range: [1, 99]
+
+# ═════════════════════════════════════════════════════════════
+# SCREENS — layout composition
+# ═════════════════════════════════════════════════════════════
+#
+# pos: { x, y }       fixed pixel position
+# pos: computed        code calculates (depends on runtime data)
+# slot: { bar, index } auto-positioned in bar
+# fill: <source>      firmware draws dynamic fill
+# lookup: <group>     firmware picks bitmap from group by state
+# show_when: <cond>   conditional visibility
+
+screens:
+  home:
+    - { ref: battery.frame,    pos: { x: 433, y: 18 },                fill: battery_level }
+    - { ref: cover_thumb,      pos: { x: 120, y: 44 }, size: { w: 240, h: 400 } }  # fixed container
+    - { ref: arrow.left,       pos: computed }
+    - { ref: arrow.right,      pos: computed }
+    - { ref: home_title,       pos: { x: 28, anchor: BL },   source: book_meta }  # BL = bottom-left
+    - { ref: home_author,      pos: { x: 28, y: 658, anchor: BL }, source: book_meta }
+    - { ref: progress.label,   pos: { x: 240, y: 696, anchor: BC }, lookup: progress }  # BC = bottom-center
+    - { ref: progress.frame,   pos: { x: 27, y: 700 },               fill: progress_level }
+    - { ref: help.read,         slot: { bar: help, index: 0 } }
+    - { ref: help.library,      slot: { bar: help, index: 1 } }
+    - { ref: help.gallery,      slot: { bar: help, index: 2 } }
+    - { ref: help.settings,     slot: { bar: help, index: 3 } }
+
+  library:
+    - { ref: hdr.library,       pos: { x: 8, y: 8 } }
+    - { ref: list,               pos: { x: 8, y: 61 }, size: { w: 464, h: 691 }, item: book, per_page: 8 }
+    - { ref: empty.no_books,     pos: { x: 22, y: 91 },  show_when: list_empty }
+    - { ref: empty.no_books_sub, pos: { x: 22, y: 125 }, show_when: list_empty }
+    - { ref: help.home,          slot: { bar: help, index: 0 } }
+    - { ref: help.read,          slot: { bar: help, index: 1 } }
+    - { ref: help.page,          slot: { bar: help, index: 2 } }
+    - { ref: help.select,        slot: { bar: help, index: 3 } }
+
+  gallery_thumb:
+    - { ref: gallery_image,  pos: computed }
+    - { ref: arrow.left,     pos: computed }
+    - { ref: arrow.right,    pos: computed }
+    - { ref: gallery_title,  pos: computed }
+    - { ref: help.home,      slot: { bar: help, index: 0 } }
+    - { ref: help.list,      slot: { bar: help, index: 1 } }
+    - { ref: help.full,      slot: { bar: help, index: 2 } }
+    - { ref: help.star,      slot: { bar: help, index: 3 } }
+
+  gallery_list:
+    - { ref: hdr.gallery,        pos: { x: 8, y: 8 } }
+    - { ref: list,                pos: { x: 8, y: 61 }, size: { w: 464, h: 691 }, item: gallery, per_page: 12 }
+    - { ref: empty.no_images,     pos: { x: 22, y: 91 },  show_when: list_empty }
+    - { ref: empty.no_images_sub, pos: { x: 22, y: 125 }, show_when: list_empty }
+    - { ref: help.home,           slot: { bar: help, index: 0 } }
+    - { ref: help.view,           slot: { bar: help, index: 1 } }
+    - { ref: help.page,           slot: { bar: help, index: 2 } }
+    - { ref: help.select,         slot: { bar: help, index: 3 } }
+
+  gallery_view:
+    - { ref: gallery_image,  pos: computed }
+    - { ref: arrow.left,     pos: computed }
+    - { ref: arrow.right,    pos: computed }
+    - { ref: gallery_title,  pos: { x: 240, y: 700, align: center }, source: gallery_meta }
+    - { ref: help.home,      slot: { bar: help, index: 0 } }
+    - { ref: help.list,      slot: { bar: help, index: 1 } }
+    - { ref: help.zoom,      slot: { bar: help, index: 2 } }
+    - { ref: help.star,      slot: { bar: help, index: 3 } }
+
+  gallery_full:
+    - { ref: gallery_image, pos: { x: 0, y: 0 }, size: { w: 480, h: 800 } }
+
+  settings:
+    - { ref: hdr.settings,  pos: { x: 8, y: 8 } }
+    - { ref: list,           pos: { x: 8, y: 61 }, size: { w: 464, h: 691 }, item: settings, per_page: 12 }
+    - { ref: help.home,      slot: { bar: help, index: 0 } }
+    - { ref: help.enter,     slot: { bar: help, index: 1 }, show_when: action_selected }
+    - { ref: help.change,    slot: { bar: help, index: 2 }, show_when: value_selected }
+    - { ref: help.select,    slot: { bar: help, index: 3 } }
+
+  settings_device:
+    - { ref: hdr.settings_device, pos: { x: 8, y: 8 } }
+    - { ref: list,                 pos: { x: 8, y: 61 }, size: { w: 464, h: 691 }, item: info, per_page: 12 }
+    - { ref: help.back,            slot: { bar: help, index: 0 } }
+
+  book_menu:
+    - { ref: hdr.book,       pos: { x: 8, y: 8 } }
+    - { ref: list,            pos: { x: 8, y: 61 }, size: { w: 464, h: 691 }, item: settings, per_page: 12 }
+    - { ref: help.back,       slot: { bar: help, index: 0 } }
+    - { ref: help.enter,      slot: { bar: help, index: 1 }, show_when: action_selected }
+    - { ref: help.change,     slot: { bar: help, index: 2 }, show_when: value_selected }
+    - { ref: help.select,     slot: { bar: help, index: 3 } }
+
+  book_chapters:
+    - { ref: hdr.book_chapters, pos: { x: 8, y: 8 } }
+    - { ref: list,               pos: { x: 8, y: 61 }, size: { w: 464, h: 691 }, item: text, per_page: 12 }
+    - { ref: help.back,          slot: { bar: help, index: 0 } }
+    - { ref: help.go,            slot: { bar: help, index: 1 } }
+    - { ref: help.select,        slot: { bar: help, index: 3 } }
+
+  reader:
+    - { ref: page_buffer, pos: { x: 0, y: 0 }, size: { w: 480, h: 800 }, source: kb_page }
+
+  sleep:
+    - { ref: sleep_image, pos: { x: 0, y: 0 }, size: { w: 480, h: 800 }, source: starred_or_black }

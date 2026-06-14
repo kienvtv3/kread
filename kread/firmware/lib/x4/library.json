@@ -1,0 +1,7 @@
+{
+  "name": "x4",
+  "version": "0.1.0",
+  "description": "Hardware abstraction SDK for Xteink X4 e-reader",
+  "frameworks": "espidf",
+  "platforms": "espressif32"
+}

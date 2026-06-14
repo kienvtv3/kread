@@ -1,0 +1,36 @@
+{
+  "name": "kread-web",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "convert:image": "node scripts/convert-image.mjs",
+    "convert:epub": "node scripts/convert-epub.mjs",
+    "gen:assets": "node scripts/gen-ui-assets.mjs && node scripts/gen-ui-assets.mjs --lang vi && cp -r resources/assets public/",
+    "gen:headers": "node scripts/gen-asset-headers.mjs",
+    "gen:demo": "node scripts/gen-demo-kb.mjs",
+    "gen:demo-books": "node scripts/gen-demo-books.mjs",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "devDependencies": {
+    "@sveltejs/vite-plugin-svelte": "^5.0.3",
+    "svelte": "^5.20.5",
+    "vite": "^6.2.2",
+    "vitest": "^4.1.0"
+  },
+  "dependencies": {
+    "@napi-rs/canvas": "^0.1.97",
+    "buffer-crc32": "^1.0.0",
+    "esp-web-tools": "^10.2.1",
+    "idb": "^8.0.2",
+    "jszip": "^3.10.1",
+    "linkedom": "^0.18.12",
+    "lz4js": "^0.2.0",
+    "serialport": "^13.0.0",
+    "yaml": "^2.8.2"
+  }
+}

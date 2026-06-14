@@ -1,0 +1,7 @@
+{
+  "name": "lz4",
+  "version": "1.10.0",
+  "description": "LZ4 compression library (decompression only)",
+  "frameworks": "espidf",
+  "platforms": "espressif32"
+}

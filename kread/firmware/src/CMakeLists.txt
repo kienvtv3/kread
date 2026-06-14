@@ -1,0 +1,22 @@
+idf_component_register(
+    SRCS
+        "main.c"
+        "ui.c"
+        "ui_assets_data.c"
+        "blit.c"
+        "serial.c"
+        "kp_decode.c"
+        "kb_reader.c"
+        "screens/home.c"
+        "screens/reader.c"
+        "screens/library.c"
+        "screens/settings.c"
+        "screens/book_menu.c"
+        "screens/book_chapters.c"
+        "components/nav.c"
+        "quadrant_test_data.c"
+    INCLUDE_DIRS
+        "../include"
+    REQUIRES
+        driver esp_adc
+)
