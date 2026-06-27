@@ -5,16 +5,11 @@ E-ink reader firmware for the **Xteink X4** device (ESP32-C3, 480×800 2-bit SSD
 ## What's in this repo
 
 ```
-kread/          Main project (C, PlatformIO)
-papyrix/        Reference firmware — Papyrix Reader (C++, Arduino-ESP32)
-refs/
-  epub-to-xtc/  Reference tool — EPUB → XTC converter
-  xtcjs/        Reference lib — XTC parser (JS)
-  xtctool/      Reference CLI — XTC inspection tool
+kread_web/      Web converter (EPUB → kbook/kpage) + emulator
+kread_firmware/ ESP32 firmware source (PlatformIO + ESP-IDF)
 design/         UI mockups (PNG + layout spec)
 docs/           Architecture specs, rendering plans
-screenshots/    Device photos and render tests
-test-firmware/  Flashable binaries for testing (CrossPoint 1.1.1, Papyrix 1.18.0)
+images/    Device photos and render tests
 ```
 
 ## Reference repos NOT in this git
@@ -50,7 +45,26 @@ Books are stored as `.kb` files (or `.xtc` — same format, different extension)
   [AA values — LZ4]     2-bit values for masked pixels only
 ```
 
-EPUB → XTC conversion happens on the web side (`refs/epub-to-xtc`), not on device.
+EPUB → `kbook`/`kpage` conversion happens on the web side, not on device.
+
+## Repo layout note (path trên máy)
+
+- Workspace hiện tại (và Git root): `D:\Projects\kread-master`
+- Source chính nằm trong:
+  - `D:\Projects\kread-master\kread_web` (web converter)
+  - `D:\Projects\kread-master\kread_firmware` (firmware ESP32)
+- Docs chính nằm trong:
+  - `D:\Projects\kread-master\docs`
+  - `D:\Projects\kread-master\kread_web\docs` (nếu có)
+- Các thư mục root:
+  - `design`, `docs`, `images`
+
+Chạy web converter:
+```powershell
+cd D:\Projects\kread-master\kread_web
+npm install
+npm run dev
+```
 
 ## Environment
 
@@ -65,3 +79,5 @@ Device:       Xteink X4 on COM7 @ 115200 baud
 Five screens: **Home → Reader → Library → Passes → Settings**
 
 Layout engine uses stacked containers with fixed height + padding. Full spec in [`design/layout.md`](design/layout.md). UI font is Atkinson Hyperlegible. All text pre-rendered to bitmaps — no runtime font shaping on device.
+
+
